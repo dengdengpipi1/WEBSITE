@@ -1,0 +1,89 @@
+---
+title: "My HomePage"
+---
+
+## R Markdown
+
+## Data importation
+
+```{r}
+data<-read.csv("C:\\Users\\Administrator\\Downloads\\Customer-Churn-Records1.csv")
+data <- na.omit(data)
+```
+
+## Interactive scatter plot
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(plotly)
+```
+
+
+```{r}
+data$Churn[data$Exited==1]="Yes"
+data$Churn[data$Exited==0]="No"
+
+scatter_plot <- ggplot(data, aes(x = Age, y = Balance, color = Churn)) +
+                geom_point(size = 3, alpha = 0.8) +
+                labs(title = "Age vs Balance", x = "Age", y = "Balance", color = "Exited") +
+                theme_minimal() +
+                theme(legend.position = "right") +
+                scale_color_manual(values = c("blue", "red"))
+scatter_plot
+```
+
+## Grouped Bar chart
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(plotly)
+```
+
+```{r}
+data$Churn[data$Exited==1]="Yes"
+data$Churn[data$Exited==0]="No"
+```
+
+## Mean age by churn group
+
+```{r}
+plotdata <- data %>%
+group_by(Churn, Card.Type) %>%
+summarize(mean_age = mean(Age, na.rm = TRUE))
+
+ggplot(plotdata,
+        aes(y = Churn, x = mean_age)) +
+  geom_bar(stat = "identity", fill = "cornflowerblue") +
+  geom_text(aes(label = round(mean_age,2)), vjust = -0.10)+
+  labs(title = "Mean age by churn group", x="Churn group", y="Mean Age")+facet_wrap(~Card.Type)
+```
+
+## Grouped Bar chart
+
+```{r}
+library(ggplot2) 
+library(dplyr) 
+library(plotly) 
+```
+
+```{r}
+data$Churn[data$Exited==1]="Yes" 
+data$Churn[data$Exited==0]="No" 
+```
+
+## Mean age by churn group
+
+```{r}
+plotdata <- data %>%
+group_by(Churn, Gender) %>%
+summarize(mean_creditscore = mean(CreditScore, na.rm = TRUE))
+
+ggplot(plotdata,
+        aes(x = Churn, y = mean_creditscore)) +
+  geom_bar(stat = "identity", fill = "cornflowerblue") +
+  geom_text(aes(label = round(mean_creditscore,2)), vjust = -0.10)+
+  labs(title = "Mean age by churn group", x="Churn group", y="Mean Age")+facet_wrap(~Gender)
+```
+
